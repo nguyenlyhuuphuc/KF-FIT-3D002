@@ -48,4 +48,6 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::get('product_category/add', [ProductCategoryController::class, 'add'])->name('product_category.add');
     Route::post('product_category/store', [ProductCategoryController::class, 'store'])->name('product_category.store');
     Route::get('product_category/{id}', [ProductCategoryController::class, 'detail'])->name('product_category.detail');
+    Route::post('product_category/update/{id}', [ProductCategoryController::class,'update'])->name('product_category.update');
+    Route::get('product_category/destroy/{id}', [ProductCategoryController::class, 'destroy'])->name('product_category.destroy');
 });
