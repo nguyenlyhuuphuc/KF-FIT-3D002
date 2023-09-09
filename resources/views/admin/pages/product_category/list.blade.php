@@ -39,8 +39,10 @@
                                                     name="keyword">
                                                 <select name="sortBy">
                                                     <option value="">---Please Select---</option>
-                                                    <option value="latest">Latest</option>
-                                                    <option value="oldest">Oldest</option>
+                                                    <option {{ $sortBy === 'latest' ? 'selected' : '' }} value="latest">
+                                                        Latest</option>
+                                                    <option {{ $sortBy === 'oldest' ? 'selected' : '' }} value="oldest">
+                                                        Oldest</option>
                                                 </select>
                                                 <button class="btn btn-primary" type="submit">Search</button>
                                             </form>

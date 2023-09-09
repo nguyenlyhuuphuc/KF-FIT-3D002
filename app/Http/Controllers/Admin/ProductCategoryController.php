@@ -20,8 +20,18 @@ class ProductCategoryController extends Controller
         $itemPerPage = 2;
         $offset = ($page - 1) * $itemPerPage;
 
-        $productCategories = DB::select('select * from product_categories order by created_at ? limit ?,?', 
-        [$sort ,$offset, $itemPerPage]);
+        $sqlSelect = 'select * from product_categories ';
+        $paramsBinding = [];
+        if(!empty($keyword)){
+            $sqlSelect .= 'where name like ?';
+            $paramsBinding[] = '%'.$keyword.'%';
+        }
+        $sqlSelect .= ' order by created_at '.$sort;
+        $sqlSelect .= ' limit ?,?';
+        $paramsBinding[] = $offset;
+        $paramsBinding[] = $itemPerPage;
+
+        $productCategories = DB::select($sqlSelect, $paramsBinding);
         $totalRecords = DB::select('select count(*) as sum from product_categories')[0]->sum;
         
         $totalPages = ceil($totalRecords / $itemPerPage);
@@ -31,7 +41,8 @@ class ProductCategoryController extends Controller
                 'productCategories' => $productCategories,
                 'totalPages' => $totalPages,
                 'currentPage' => $page,
-                'keyword' => $keyword
+                'keyword' => $keyword,
+                'sortBy' => $sortBy
             ]
         );
     }

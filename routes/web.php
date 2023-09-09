@@ -37,8 +37,6 @@ require __DIR__.'/auth.php';
 
 
 Route::prefix('admin')->name('admin.')->group(function(){
-    //Product
-    Route::get('product', [ProductController::class, 'index'])->name('product.list');
 
     //User
     Route::get('user', [UserController::class, 'index'])->name('user.list');
@@ -50,4 +48,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::get('product_category/{id}', [ProductCategoryController::class, 'detail'])->name('product_category.detail');
     Route::post('product_category/update/{id}', [ProductCategoryController::class,'update'])->name('product_category.update');
     Route::get('product_category/destroy/{id}', [ProductCategoryController::class, 'destroy'])->name('product_category.destroy');
+
+    //Product
+    Route::resource('product', ProductController::class);
 });

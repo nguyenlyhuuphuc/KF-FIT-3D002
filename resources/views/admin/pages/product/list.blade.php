@@ -26,7 +26,14 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Bordered Table</h3>
+                                <div class="row">
+                                    <div class="col-md-8">
+
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <a class="btn btn-primary" href="{{ route('admin.product.create') }}">Add</a>
+                                    </div>
+                                </div>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
