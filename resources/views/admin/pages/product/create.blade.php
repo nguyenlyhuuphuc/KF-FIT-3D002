@@ -30,7 +30,7 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" method="post" action="{{ route('admin.product_category.store') }}">
+                            <form role="form" method="post" action="{{ route('admin.product.store') }}">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="name">Name</label>
@@ -67,16 +67,16 @@
 
                                     <div class="form-group">
                                         <label for="short_description">Short Description</label>
-                                        <div id="short_description"></div>
-                                        {{-- <textarea placeholder="Describe yourself here..." class="form-control" name="short_description" id="short_description"></textarea> --}}
+                                        {{-- <div id="short_description"></div> --}}
+                                        <textarea placeholder="Describe yourself here..." class="form-control" name="short_description" id="short_description"></textarea>
                                         @error('short_description')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Description</label>
-                                        <div id="description"></div>
-                                        {{-- <textarea placeholder="Describe yourself here..." class="form-control" name="description" id="description"></textarea> --}}
+                                        {{-- <div id="description"></div> --}}
+                                        <textarea placeholder="Describe yourself here..." class="form-control" name="description" id="description"></textarea>
                                         @error('description')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -127,10 +127,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Product Category</label>
-                                        <select name="product_category_id " class="custom-select">
+                                        <select name="product_category_id" class="custom-select">
                                             <option value="">---Please Select---</option>
-                                            <option value="1">a</option>
-                                            <option value="0">b</option>
+                                            @foreach ($productCategories as $productCategory)
+                                                <option value="{{ $productCategory->id }}">{{ $productCategory->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                         @error('product_category_id ')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -166,12 +168,28 @@
             .catch(error => {
                 console.error(error);
             });
+        ClassicEditor
+            .create(document.querySelector('#information'))
+            .catch(error => {
+                console.error(error);
+            });
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#name').on('keyup', function() {
                 var name = $('#name').val();
-                console.log('name', name);
+
+                $.ajax({
+                    method: "POST", //method of form
+                    url: "{{ route('admin.product.create.slug') }}", //action of form
+                    data: {
+                        'name': name,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('#slug').val(response.slug);
+                    }
+                });
             });
         });
     </script>
