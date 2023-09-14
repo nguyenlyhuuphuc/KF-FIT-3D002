@@ -23,7 +23,8 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3|max:255|unique:products,name',
-            'price' => 'integer|min:1|max:999999999'
+            'price' => 'integer|min:1|max:999999999',
+            'image' => 'image'
         ];
     }
 }

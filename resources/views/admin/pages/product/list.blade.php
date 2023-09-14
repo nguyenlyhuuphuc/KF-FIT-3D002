@@ -43,7 +43,9 @@
                                             <th style="width: 10px">#</th>
                                             <th>Name</th>
                                             <th>Price</th>
+                                            <th>Image</th>
                                             <th>Short Description</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,8 +53,27 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $product->name }}</td>
-                                                <td>{{ $product->price }}</td>
+                                                <td>{{ number_format($product->price, 2) }}</td>
+                                                <td>
+                                                    @php
+                                                        $imagesLink = is_null($product->image) || !file_exists('images/' . $product->image) ? 'https://phutungnhapkhauchinhhang.com/wp-content/uploads/2020/06/default-thumbnail.jpg' : asset('images/' . $product->image);
+                                                    @endphp
+                                                    <img src="{{ $imagesLink }}" alt="{{ $product->name }}" width="150"
+                                                        height="150" />
+                                                </td>
                                                 <td>{!! $product->short_description !!}</td>
+                                                <td>
+                                                    <form
+                                                        action="{{ route('admin.product.destroy', ['product' => $product->id]) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button onclick="return confirm('Are you sure ?')" type="submit"
+                                                            class="btn btn-danger" name="sumbit">Delete</button>
+                                                    </form>
+                                                    <a href="{{ route('admin.product.show', ['product' => $product->id]) }}"
+                                                        class="btn btn-primary">Edit</a>
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr>
