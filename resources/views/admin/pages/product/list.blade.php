@@ -44,7 +44,8 @@
                                             <th>Name</th>
                                             <th>Price</th>
                                             <th>Image</th>
-                                            <th>Short Description</th>
+                                            <th>Product Category Name</th>
+                                            {{-- <th>Short Description</th> --}}
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -61,7 +62,8 @@
                                                     <img src="{{ $imagesLink }}" alt="{{ $product->name }}" width="150"
                                                         height="150" />
                                                 </td>
-                                                <td>{!! $product->short_description !!}</td>
+                                                {{-- <td>{!! $product->short_description !!}</td> --}}
+                                                <td>{{ $product->product_category_name }}</td>
                                                 <td>
                                                     <form
                                                         action="{{ route('admin.product.destroy', ['product' => $product->id]) }}"
