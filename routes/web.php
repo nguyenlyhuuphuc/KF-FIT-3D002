@@ -34,9 +34,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-
-
-Route::prefix('admin')->name('admin.')->group(function(){
+Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function(){
 
     //User
     Route::get('user', [UserController::class, 'index'])->name('user.list');
@@ -54,3 +52,11 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::post('product/slug', [ProductController::class, 'createSlug'])->name('product.create.slug');
     Route::post('product/ckeditor-upload-image', [ProductController::class, 'uploadImage'])->name('product.ckedit.upload.image');
 });
+
+
+Route::get('test', function (){return '<h1>Test</h1>';})->middleware('auth.admin');
+
+Route::get('7up', function(){return '7up';});
+Route::get('chivas', function(){return 'chivas';})->middleware('age.18');
+
+//users -> add column DOB -> timestamp()

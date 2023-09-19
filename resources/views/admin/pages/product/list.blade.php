@@ -37,7 +37,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table class="table table-bordered">
+                                <table id="table-product" class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th style="width: 10px">#</th>
@@ -87,7 +87,7 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer clearfix">
-                                {{ $products->links() }}
+                                {{-- {{ $products->links() }} --}}
                                 {{-- <ul class="pagination pagination-sm m-0 float-right">
                                     <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
                                     <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -104,4 +104,10 @@
         </section>
         <!-- /.content -->
     </div>
+@endsection
+
+@section('js-custom')
+    <script type="text/javascript">
+        $('#table-product').dataTable();
+    </script>
 @endsection
