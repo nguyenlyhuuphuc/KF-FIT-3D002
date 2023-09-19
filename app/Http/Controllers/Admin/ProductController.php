@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -149,10 +150,14 @@ class ProductController extends Controller
             unlink('images/'.$image);
         }
         
-        $result = DB::table('products')->delete($id);
-        $message = $result ? 'xoa san pham thanh cong' : 'xoa san pham that bai';
+        //QueryBuidlder
+        // $result = DB::table('products')->delete($id);
+        //ELoquent
+        $productData = Product::find((int)$id);
+        $productData->delete();
+
         //session flash
-        return redirect()->route('admin.product.index')->with('message',$message);
+        return redirect()->route('admin.product.index')->with('message','xoa san pham thanh cong');
     }
     
     public function createSlug(Request $request){

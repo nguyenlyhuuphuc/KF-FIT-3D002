@@ -60,3 +60,8 @@ Route::get('7up', function(){return '7up';});
 Route::get('chivas', function(){return 'chivas';})->middleware('age.18');
 
 //users -> add column DOB -> timestamp()
+
+Route::get('a', function(){
+    $product = \App\Models\Product::find(12);
+    dd($product);
+});
