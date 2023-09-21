@@ -24,12 +24,15 @@ class ProductController extends Controller
         //LIMIT 0, 3
 
         //Query Builder
-        $products = DB::table('products')
-        ->select('products.*', 'product_categories.name as product_category_name')
-        ->leftJoin('product_categories', 'products.product_category_id', '=', 'product_categories.id')
-        ->orderBy('created_at', 'desc')
-        ->get();
+        // $products = DB::table('products')
+        // ->select('products.*', 'product_categories.name as product_category_name')
+        // ->leftJoin('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+        // // ->whereNull('deleted_at')
+        // ->orderBy('created_at', 'desc')
         // ->paginate(config('my-config.item-per-pages'));
+
+        //Eloquent
+        $products = Product::withTrashed()->with('product_category')->paginate(config('my-config.item-per-pages'));
 
         return view('admin.pages.product.list', ['products' => $products]);
     }
@@ -155,7 +158,6 @@ class ProductController extends Controller
         //ELoquent
         $productData = Product::find((int)$id);
         $productData->delete();
-
         //session flash
         return redirect()->route('admin.product.index')->with('message','xoa san pham thanh cong');
     }
@@ -174,5 +176,17 @@ class ProductController extends Controller
             $url = asset('images/' . $fileName);
             return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);
         }
+    }
+
+    public function restore(string $id){
+        //Query Builder
+        // $product= DB::table('products')->find($id);
+        // $product->update(['deleted_at' => null]);
+
+        //Eloquent
+        $product = Product::withTrashed()->find($id);
+        $product->restore();
+
+        return redirect()->route('admin.product.index')->with('message','khoi phuc san pham thanh cong');
     }
 }

@@ -44,6 +44,11 @@
                                                     <option {{ $sortBy === 'oldest' ? 'selected' : '' }} value="oldest">
                                                         Oldest</option>
                                                 </select>
+                                                <select name="status">
+                                                    <option value="">---Please Select---</option>
+                                                    <option value="1">Show</option>
+                                                    <option value="0">Hide</option>
+                                                </select>
                                                 <button class="btn btn-primary" type="submit">Search</button>
                                             </form>
                                         </h3>
@@ -77,10 +82,10 @@
                                                 </td>
                                                 <td>{{ $productCategory->created_at }}</td>
                                                 <td>
-                                                    <a href="{{ route('admin.product_category.detail', ['id' => $productCategory->id]) }}"
+                                                    <a href="{{ route('admin.product_category.detail', ['product_category' => $productCategory->id]) }}"
                                                         class="btn btn-primary">Detail</a>
                                                     <a onclick="return confirm('Are you sure ?')" class="btn btn-danger"
-                                                        href="{{ route('admin.product_category.destroy', ['id' => $productCategory->id]) }}">Delete</a>
+                                                        href="{{ route('admin.product_category.destroy', ['product_category' => $productCategory->id]) }}">Delete</a>
                                                 </td>
                                             </tr>
                                         @empty
@@ -93,7 +98,8 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer clearfix">
-                                <ul class="pagination pagination-sm m-0 float-right">
+                                {{ $productCategories->links() }}
+                                {{-- <ul class="pagination pagination-sm m-0 float-right">
                                     <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
                                     @for ($i = 1; $i <= $totalPages; $i++)
                                         <li class="page-item {{ $i == $currentPage ? 'active' : '' }}"><a class="page-link"
@@ -101,7 +107,7 @@
                                         </li>
                                     @endfor
                                     <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                </ul>
+                                </ul> --}}
                             </div>
                         </div>
                         <!-- /.card -->
