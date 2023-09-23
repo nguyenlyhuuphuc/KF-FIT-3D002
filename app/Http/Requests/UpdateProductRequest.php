@@ -22,7 +22,7 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|max:255|unique:products,name,'.$this->id,
+            'name' => 'required|min:3|max:255|unique:products,name,'.$this->product,
             'price' => 'integer|min:1|max:999999999',
         ];
     }
