@@ -54,4 +54,6 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
 //Client
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('product/add-to-cart/{productId}', [CartController::class, 'addToCart'])->name('product.add-to-cart');
+Route::get('product/delete-item-in-cart/{productId}', [CartController::class, 'deleteItem'])->name('product.delete-item-in-cart');
+Route::get('product/update-item-in-cart/{productId}/{qty?}', [CartController::class, 'updateItem'])->name('product.update-item-in-cart');
 Route::get('cart', [CartController::class,'index'])->name('cart.index');

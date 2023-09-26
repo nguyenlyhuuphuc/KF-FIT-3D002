@@ -395,6 +395,10 @@
                             // title: 'Notification',
                             text: response.message,
                         });
+                        $('#total-items-cart').html(response.total_items);
+                        $('#total-price-cart').html('$' + response.total_price.toFixed(2)
+                            .replace(
+                                /(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                     }
                 });
             });
