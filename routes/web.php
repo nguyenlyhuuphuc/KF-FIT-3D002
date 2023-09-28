@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,7 +54,13 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
 });
 //Client
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
-Route::get('product/add-to-cart/{productId}', [CartController::class, 'addToCart'])->name('product.add-to-cart');
-Route::get('product/delete-item-in-cart/{productId}', [CartController::class, 'deleteItem'])->name('product.delete-item-in-cart');
-Route::get('product/update-item-in-cart/{productId}/{qty?}', [CartController::class, 'updateItem'])->name('product.update-item-in-cart');
-Route::get('cart', [CartController::class,'index'])->name('cart.index');
+
+Route::middleware('auth')->group(function(){
+    Route::get('product/add-to-cart/{productId}', [CartController::class, 'addToCart'])->name('product.add-to-cart');
+    Route::get('product/delete-item-in-cart/{productId}', [CartController::class, 'deleteItem'])->name('product.delete-item-in-cart');
+    Route::get('product/update-item-in-cart/{productId}/{qty?}', [CartController::class, 'updateItem'])->name('product.update-item-in-cart');
+    Route::get('product/delete-item-in-cart', [CartController::class, 'emptyCart'])->name('product.delete-item-in-cart');
+    Route::get('cart', [CartController::class,'index'])->name('cart.index');
+    Route::get('checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::post('placeorder',[OrderController::class, 'placeOrder'])->name('place-order');
+});
