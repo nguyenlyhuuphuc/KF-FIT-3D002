@@ -8,6 +8,8 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Mail\MailToCustomer;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -65,10 +67,28 @@ Route::middleware('auth')->group(function(){
     Route::get('cart', [CartController::class,'index'])->name('cart.index');
     Route::get('checkout', [CartController::class, 'checkout'])->name('checkout');
     Route::post('placeorder',[OrderController::class, 'placeOrder'])->name('place-order');
+    Route::get('vnpay-callback', [OrderController::class, 'vnpayCallback'])->name('vnpay-callback');
 });
 
-
-Route::get('test-send-mail', function(){
-    //use Illuminate\Support\Facades\Mail;
-    Mail::to('nguyenlyhuuphucwork@gmail.com')->send(new MailToCustomer);
+Route::get('test', function(){
+    $order = Order::find(17);
+    $orderItems = $order->order_items;
+    $cart = [];
+    
+    foreach($orderItems as $item){
+        $product = Product::find($item->product_id);
+        $imagesLink = is_null($product->image) 
+        || !file_exists('images/' . $product->image)
+        ? 'https://phutungnhapkhauchinhhang.com/wp-content/uploads/2020/06/default-thumbnail.jpg' 
+        : asset('images/' . $product->image);
+        $cart[$item->product_id] = [
+            'name' => $item->product_name,
+            'price' => $item->product_price,
+            'image' => $imagesLink,
+            'qty' => $item->qty
+        ];
+    }
+    dd($cart);
+    // dd(session()->get('cart', []));
+    dd($orderItems);
 });
