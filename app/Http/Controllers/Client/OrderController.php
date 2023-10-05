@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Events\PlaceOrderSuccess;
 use App\Http\Controllers\Controller;
 use App\Mail\MailToAdmin;
 use App\Mail\MailToCustomer;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderPaymentMethod;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,12 +71,9 @@ class OrderController extends Controller
             session()->put('cart', []);            
             DB::commit();
 
-            //Send mail to customer to cofirm order
-            //Mail::to(Auth::user()->email)->send(new MailToCustomer);
-            Mail::to('nguyenlyhuuphucwork@gmail.com')->send(new MailToCustomer($order));
-            //Send mail to admin to prepare
-            Mail::to(config('my-config.admin-email'))->send(new MailToAdmin($order, $user));
-
+            //Create event place order success
+            event(new PlaceOrderSuccess($order, $user, $cart));
+            
             return redirect()->route('home.index');
         }catch(\Exception $exception){
             DB::rollBack();
