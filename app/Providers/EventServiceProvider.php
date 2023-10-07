@@ -6,6 +6,7 @@ use App\Events\PlaceOrderSuccess;
 use App\Listeners\MinusQtyProduct;
 use App\Listeners\SendMailToAdmin;
 use App\Listeners\SendMailToCustomer;
+use App\Listeners\SendSmsToCustomer;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -25,7 +26,8 @@ class EventServiceProvider extends ServiceProvider
         PlaceOrderSuccess::class => [
             SendMailToCustomer::class,
             SendMailToAdmin::class,
-            MinusQtyProduct::class
+            MinusQtyProduct::class,
+            //SendSmsToCustomer::class
         ],
     ];
 
